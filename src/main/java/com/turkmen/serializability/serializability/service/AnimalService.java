@@ -30,11 +30,11 @@ public class AnimalService {
 
 	public void save(Animal animal) {
 
-		byte[] serializedAnimal = serialize(animal);
+		byte[] serializedAnimalByteArr = serialize(animal);
 
-		SerializedAnimal serializedAnimal2 = new SerializedAnimal(serializedAnimal);
+		SerializedAnimal serializedAnimal = new SerializedAnimal(serializedAnimalByteArr);
 
-		this.serializedAnimalRepo.save(serializedAnimal2);
+		this.serializedAnimalRepo.save(serializedAnimal);
 
 	}
 

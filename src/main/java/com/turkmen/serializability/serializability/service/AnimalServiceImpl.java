@@ -3,6 +3,7 @@
  */
 package com.turkmen.serializability.serializability.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -19,16 +20,16 @@ import com.turkmen.serializability.serializability.repository.SerializedAnimalRe
  */
 
 @Service
-public class AnimalService {
+public class AnimalServiceImpl  implements IAnimalService{
 
 	private SerializedAnimalRepo serializedAnimalRepo;
 
-	public AnimalService(SerializedAnimalRepo serializedAnimalRepo) {
+	public AnimalServiceImpl(SerializedAnimalRepo serializedAnimalRepo) {
 		super();
 		this.serializedAnimalRepo = serializedAnimalRepo;
 	}
 
-	public void save(Animal animal) {
+	public void save(Animal animal) throws Exception {
 
 		byte[] serializedAnimalByteArr = serialize(animal);
 
@@ -37,13 +38,15 @@ public class AnimalService {
 		this.serializedAnimalRepo.save(serializedAnimal);
 
 	}
+	
+	
+	
 
-	private byte[] serialize(Animal animal) {
+	private byte[] serialize(Animal animal) throws IOException {
 
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 		try {
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 
 			objectOutputStream.writeObject(animal);
 
@@ -51,6 +54,8 @@ public class AnimalService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			objectOutputStream.close();
 		}
 
 		return null;

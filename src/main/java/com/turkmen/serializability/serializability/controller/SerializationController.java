@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkmen.serializability.serializability.model.Animal;
-import com.turkmen.serializability.serializability.service.AnimalService;
+import com.turkmen.serializability.serializability.service.AnimalServiceImpl;
 
 /**
  * @author TTTDEMIRCI
@@ -19,12 +19,12 @@ import com.turkmen.serializability.serializability.service.AnimalService;
 @RequestMapping("/serializeAnimal")
 public class SerializationController {
 	
-	private AnimalService animalService;
+	private AnimalServiceImpl animalService;
 	
 
 	
 	
-	public SerializationController(AnimalService animalService) {
+	public SerializationController(AnimalServiceImpl animalService) {
 		super();
 		this.animalService = animalService;
 	}
@@ -32,7 +32,7 @@ public class SerializationController {
 
 
 	@PostMapping
-	public String post(@RequestBody final Animal animal) {
+	public String post(@RequestBody final Animal animal) throws Exception {
 		animalService.save(animal);
 		
 		return "animal is saved!";

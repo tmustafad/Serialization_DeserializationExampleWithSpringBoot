@@ -21,6 +21,7 @@ import com.turkmen.serializability.serializability.service.IAnimalService;
 @RequestMapping("/deserializeAnimal")
 public class DeserializationController {
 
+	
 	private IAnimalService animalService;
 
 	public DeserializationController(IAnimalService animalService) {

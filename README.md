@@ -11,7 +11,7 @@
 - The serialization and deserialization is achieved via private methods in service impl class. 
 
 
-		`private byte[] serialize(Animal animal) throws IOException {
+		private byte[] serialize(Animal animal) throws IOException {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 		try {
@@ -29,8 +29,7 @@
 		return null;
 	}
 
-	private Animal deserialize(byte[] serializedAnimal) throws IOException, ClassNotFoundException {
-
+		private Animal deserialize(byte[] serializedAnimal) throws IOException, ClassNotFoundException {
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedAnimal);
 		ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 		try {

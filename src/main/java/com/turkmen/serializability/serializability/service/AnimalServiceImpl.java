@@ -5,7 +5,10 @@ package com.turkmen.serializability.serializability.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ import com.turkmen.serializability.serializability.repository.SerializedAnimalRe
  */
 
 @Service
-public class AnimalServiceImpl  implements IAnimalService{
+public class AnimalServiceImpl implements IAnimalService {
 
 	private SerializedAnimalRepo serializedAnimalRepo;
 
@@ -38,9 +41,23 @@ public class AnimalServiceImpl  implements IAnimalService{
 		this.serializedAnimalRepo.save(serializedAnimal);
 
 	}
-	
-	
-	
+
+	@Override
+	public List<Animal> getAnimals() throws Exception {
+		return serializedAnimalRepo.findAll().stream().map(serializedAnimal -> {
+			try {
+				return deserialize(serializedAnimal.getSerializedAnimal());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}).collect(Collectors.toList());
+
+	}
 
 	private byte[] serialize(Animal animal) throws IOException {
 
@@ -56,6 +73,25 @@ public class AnimalServiceImpl  implements IAnimalService{
 			e.printStackTrace();
 		} finally {
 			objectOutputStream.close();
+		}
+
+		return null;
+	}
+
+	private Animal deserialize(byte[] serializedAnimal) throws IOException, ClassNotFoundException {
+
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedAnimal);
+		ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+		try {
+
+			Animal animal = (Animal) objectInputStream.readObject();
+
+			return animal;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			objectInputStream.close();
 		}
 
 		return null;

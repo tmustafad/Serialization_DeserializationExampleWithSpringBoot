@@ -3,8 +3,9 @@
  */
 package com.turkmen.serializability.serializability.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,27 +16,20 @@ import com.turkmen.serializability.serializability.service.IAnimalService;
  * @author TTTDEMIRCI
  *
  */
-@RestController
-@RequestMapping("/serializeAnimal")
-public class SerializationController {
-	
-	private IAnimalService animalService;
-	
 
-	
-	
-	public SerializationController(IAnimalService animalService) {
+@RestController
+@RequestMapping("/deserializeAnimal")
+public class DeserializationController {
+
+	private IAnimalService animalService;
+
+	public DeserializationController(IAnimalService animalService) {
 		super();
 		this.animalService = animalService;
 	}
 
-
-
-	@PostMapping
-	public String post(@RequestBody final Animal animal) throws Exception {
-		animalService.save(animal);
-		
-		return "animal is saved!";
+	@GetMapping
+	public List<Animal> getAnimals() throws Exception {
+		return animalService.getAnimals();
 	}
-
 }
